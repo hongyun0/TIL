@@ -7,16 +7,27 @@ public class MyRestTemplate {
 
   private final RestTemplate restTemplate;
 
-  public IsApiClient() {
+  public MyRestTemplate() {
     this.restTemplate = this.initializeRestTemplate();
   }
 
   private RestTemplate initializeRestTemplate() {
     return new RestTemplateBuilder()
-        .uriTemplateHandler(new DefaultUriBuilderFactory(IS_API_URL))
+        .uriTemplateHandler(new DefaultUriBuilderFactory(MY_URL))
         .build();
   }
 }
+```
+
+DefaultUriBuilderFactory가 없는 예전 스프링버전에서는 DefaultUriTemplateHandler를 사용한다.   
+DefaultUriTemplateHandler는 현재 deprecated 되었다.   
+```java
+DefaultUriTemplateHandler defaultUri = new DefaultUriTemplateHandler();
+defaultUri.setBaseUrl(MY_URL);
+
+return new RestTemplateBuilder()
+    .uriTemplateHandler(defaultUri)
+    .build();
 ```
 
 # Response with List of Objects
