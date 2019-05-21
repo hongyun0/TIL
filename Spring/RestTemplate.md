@@ -1,6 +1,6 @@
 # RestTemplate Initialization
 기본적으로 생성은 한번만 한다.   
-BaseUrl을 설정하고 싶으면 DefaultUriTemplateHandler를 이용한다.   
+BaseUrl을 설정하고 싶으면 DefaultUriBuilderFactory를 이용한다.   
 ```java
 public class MyRestTemplate {
   private static final String MY_URL = "http://my.url.com/sample";
@@ -12,11 +12,8 @@ public class MyRestTemplate {
   }
 
   private RestTemplate initializeRestTemplate() {
-    DefaultUriTemplateHandler defaultUri = new DefaultUriTemplateHandler();
-    defaultUri.setBaseUrl(MY_URL);
-
     return new RestTemplateBuilder()
-        .uriTemplateHandler(defaultUri)
+        .uriTemplateHandler(new DefaultUriBuilderFactory(IS_API_URL))
         .build();
   }
 }
