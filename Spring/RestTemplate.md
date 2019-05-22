@@ -30,6 +30,15 @@ return new RestTemplateBuilder()
     .build();
 ```
 
+**@함정!**   
+rootUri()를 이용하면 baseUrl을 바로 설정할 수 있다.   
+defaultUriTemplate과 무엇이 다른지는 다음에 알아보자.   
+```java
+return new RestTemplateBuilder()
+    .rootUri(MY_URL)
+    .build();
+```
+
 # Response with List of Objects
 기본적으로 List의 제네릭을 포함해서 Class 파라미터를 넘길 수 없다.   
 이를 해결하기 위한 방법은 여러 가지가 있다.   
