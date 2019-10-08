@@ -1,7 +1,8 @@
-https://d2.naver.com/helloworld/831311   
+> https://d2.naver.com/helloworld/831311   
 https://en.wikipedia.org/wiki/Open_addressing   
 https://ict-nroo.tistory.com/76   
 https://ratsgo.github.io/data%20structure&algorithm/2017/10/25/hash/   
+http://egloos.zum.com/sweeper/v/925740
 
 ## HashMap vs HashTable
 HashTable은 Java 초창기부터 있던 클래스다.
@@ -61,6 +62,8 @@ h(k) = (kA mod 1) × m
 
 #### Universal Hasing
 해시함수를 여러 개 두고 그 중 무작위로 선택한 해시함수를 사용하는 기법이다.
+
+장점 : 악의적인 공격으로 인한 해시 성능 저하를 방지할 수 있다.
  
 
 ## 해시테이블 구조
@@ -74,13 +77,50 @@ h(k) = (kA mod 1) × m
 #### Separate Chaining
 연결리스트를 이용해 한 버킷에 여러 개의 값을 넣는다.
 
-장점 : 유연하다.
+장점 : 유연하다. 삭제 작업이 간단하다. 데이터가 많아져도 성능저하가 더디게 일어난다.
 
-단점 : 메모리 비효율?
+단점 : 캐시 효율이 좋지 않고, 데이터 삽입 시 오버헤드가 큰편이다. (연결리스트의 단점을 그대로 가진다.)
 
 #### Open Addressing
 충돌이 일어날 경우 다른 버킷에 저장한다.
 
-장점 : 메모리 효율?, 캐싱 효율?
+장점 : 해시값의 범위가 작을 때에는 캐시 효율이 높다.
 
-단점 : 
+단점 : 전체 대비 사용중인 버킷의 비율(load factor)이 높아지면 급격한 성능저하가 일어난다. (일반적으로 80%부터)
+
+
+> 여기서의 캐시 효율은 공간적 지역성 때문에 프로세서 캐시의 효율이 높다는 것을 의미한다. 
+https://en.wikipedia.org/wiki/Locality_of_reference
+
+
+### Probing - for Open Addressing
+충돌 시 탐사 방식에 따라 Open Addressing의 성능이 달라진다.
+
+대표적으로 선형 탐사(Linear probing), 제곱 탐사(Quadratic probing), 이중해싱(double hashing)이 있다.
+
+ 
+
+#### 선형 탐사(Linear probing)
+고정폭으로 이동한다. (ex. 한 칸씩 옆으로 이동)
+
+장점 : 간단하다. 캐시 효율이 가장 높다. 연산량이 가장 적다.
+
+단점 : 특정 해시값 주변 버킷이 모두 채워져 있는 primary clustering 문제에 취약하다.
+
+ 
+
+#### 제곱 탐사(Quadratic probing)
+제곱수로 폭을 늘려가며 이동한다. (ex. 1^2-> 2^2 -> 3^2 칸 만큼 옆으로 이동)
+
+장점 : primary clustering 문제를 해결한다.
+
+단점 : 여러 키가 동일한 해시값을 가지는 secondary clustering 문제에 취약하다.
+
+ 
+
+#### 이중해싱(double hashing)
+충돌이 일어났을 때 사용할 해시함수를 정해두고 이동폭을 해시함수를 통해 계산한다.
+
+장점 : primary clustering 문제와 secondary clustering 문제를 모두 해결할 수 있다.
+
+단점 : 캐시 효율이 낮다. 연산량이 많다.
