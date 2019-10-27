@@ -45,16 +45,25 @@ Old 영역에는 512바이트 짜리 Card Table이 존재한다.
 
 Old 영역의 객체가 Young 영역의 객체를 참조할 때마다 이 곳에 표시한다.   
 
-Card Table은 Minor GC가 일어날 때 Young 영역의 객체가 참조되고 있는지 확인하는 용도로 사용된다.   
+Card Table은 Minor GC가 일어날 때 Young 영역의 객체가 참조되고 있는지 확인하는 용도로 사용된다.      
 
-카드 마킹 시 Write Barrier를 사용하기 때문에 오버헤드가 발생하지만, GC 시간을 줄이기 위한 기회비용이라고 본다.   
+#### Card Table   
 
+Card Table의 각 칸은 Old 영역을 일정한 조각으로 쪼갠 부분들과 대응된다.   
 
+Young 영역을 참조하려할 때, 그 객체가 속한 영역에 해당하는 카드를 Dirty 카드로 표시한다.   
 
-Write Barrier : 메모리에 쓰기 실행을 시도한 순서와 실제 메모리에 써지는 순서가 같도록 보장하는 것.   
+Minor GC를 실행할 때는 이 Dirty 영역에 들어있는 Old 객체들의 참조만 확인하면 된다.   
 
+ 
+
+카드 마킹 시 대부분 Write Barrier를 사용하기 때문에 오버헤드가 발생하지만, GC 시간을 줄이기 위한 기회비용이라고 본다.   
+
+Write Barrier : 객체를 생성하거나 재할당할 때마다 확인해서 카드마킹 하는 방식.   
 
 
 https://en.wikipedia.org/wiki/Write_barrier   
 
 http://psy-lob-saw.blogspot.com/2014/10/the-jvm-write-barrier-card-marking.html   
+
+https://blogs.msdn.microsoft.com/abhinaba/2009/03/02/back-to-basics-generational-garbage-collection/   
