@@ -173,10 +173,14 @@ DEFAULT_MIME_TYPES의 변경으로 인해 디폴트 헤더정보가 변경되었
 @Configuration(proxyBeanMethods = false)
 public class HttpCodecMediaTypeConfiguration {
 
+  private static final MimeType[] DEFAULT_MIME_TYPES = {
+      new MimeType("application", "json", StandardCharsets.UTF_8),
+      new MimeType("application", "*+json", StandardCharsets.UTF_8)};
+
   @Bean
   public CodecCustomizer MediaTypeCodecCustomizer(ObjectMapper objectMapper) {
     return codecConfigurer -> {
-      codecConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON_UTF8));
+      codecConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper, DEFAULT_MIME_TYPES));
     };
   }
 
